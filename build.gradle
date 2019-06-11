@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+}
+
+group 'HawkEye-Monitoring'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'com.github.oshi:oshi-core:3.13.2'
+    compile 'org.slf4j:slf4j-api:1.8.0-beta4'
+    compile 'net.java.dev.jna:jna:5.3.0'
+    compile 'com.microsoft.sqlserver:mssql-jdbc:7.2.2.jre8'
+    compile 'com.google.code.gson:gson-parent:2.8.5'
+    compile 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+    compile 'org.apache.httpcomponents:httpclient:4.5.6'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
+}
+
+jar {
+    manifest {
+        attributes('Main-Class': 'telas.TelaInicio')
+    }
+    // Add this
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+}
