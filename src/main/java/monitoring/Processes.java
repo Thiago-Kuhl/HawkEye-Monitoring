@@ -13,37 +13,9 @@ import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 
-import javax.swing.*;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.List;
 
-public class Processos {
-
-    public static void exibir() {
-        SystemInfo si = new SystemInfo();
-        OperatingSystem os = si.getOperatingSystem(); 
-        GlobalMemory memory = si.getHardware().getMemory();
-        
-        System.out.println("Processos: " + os.getProcessCount() + ", Threads: " + os.getThreadCount());
-
-        List<OSProcess> procs = Arrays.asList(os.getProcesses(5, OperatingSystem.ProcessSort.CPU));
-
-        System.out.println(" PID     CPU(%)     Memória(%)     VSZ      RSS     Name");
-        for (int cont = 0; cont < procs.size() && cont < 5; cont++) {
-                OSProcess p = procs.get(cont);
-
-
-                JOptionPane.showMessageDialog(null, "  PID     CPU(%)     Memória(%)        VSZ         " +
-                        "       RSS          Name\n" +
-                        String.format("%5d   %5.1f            %4.1f            %9s        %9s      %s     %n", p.getProcessID(),
-                                100d * (p.getKernelTime() + p.getUserTime()) / p.getUpTime(),
-                                100d * p.getResidentSetSize() / memory.getTotal(), FormatUtil.formatBytes(p.getVirtualSize()),
-                                FormatUtil.formatBytes(p.getResidentSetSize()), p.getName()));
-
-        }
-
-    }
+public class Processes {
 
     //Retorna os processos que estão sendo executados
     public static String[][] getProcessesAsStringTable(int numberOfProcesses) {
