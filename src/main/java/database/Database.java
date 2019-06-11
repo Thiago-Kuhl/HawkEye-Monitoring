@@ -1,6 +1,7 @@
 package database;
 
 import crypto.*;
+import menu.Init;
 import telas.*;
 
 import java.sql.*;
@@ -47,17 +48,18 @@ public class Database {
     public boolean selectMachineExists(int companyId, String singleId){
         boolean exists = false;
         try (Connection con = DriverManager.getConnection(getConnectionUrl()); Statement stmt = con.createStatement()){
-            SQL = "SELECT idMaquina FROM MAQUINA WHERE idEmpresa = '"+companyId+"' AND singleId = '"+crypto.singleID(singleId)+"'";
+            SQL = "SELECT idMaquina, idEmpresa FROM MAQUINA WHERE idEmpresa = '"+companyId+"' AND singleId = '"+crypto.singleID(singleId)+"'";
             ResultSet rs = stmt.executeQuery(SQL);
 
-            if(rs.next()){
-                System.out.println("Existe essa máquina");
-                selectMachineId(companyId, System.getProperty("user.name"));
-            }
-            else{
+            if(!rs.next()){
                 System.out.println("Não existe");
                 Register register = new Register();
+                register.setCompanyId(companyId);
                 register.registerMachine();
+            }
+            else{
+                System.out.println("Existe essa máquina");
+                selectMachineId(companyId, System.getProperty("user.name"));
             }
         }
         catch (SQLException e){
@@ -117,65 +119,33 @@ public class Database {
         }
     }
 
-//    public void insertMachine(int companyId, singleId){
-//
-//    }
-//    public boolean selectMaquina(String idEmpresa, String singleId){
-//        boolean maquinaExiste = false;
-//        try (Connection con = DriverManager.getConnection(getConnectionUrl()); Statement stmt = con.createStatement();) {
-//            String SQL = "SELECT * FROM maquina WHERE idEmpresa = '"+ idEmpresa +"' AND singleId = '"+ crypto.singleID(singleId) +"';";
-//            System.out.println(SQL);
-//            ResultSet rs = stmt.executeQuery(SQL);
-//
-//            if(!rs.next()){
-//                System.out.println("#####NÃO-EXISTE#####");
-//                idEmpresa = rs.getString("idMaquina");
-//                TelaCadastroMaquina cadastroMaquina = new TelaCadastroMaquina();
-//                cadastroMaquina.setVisible(true);
-//                cadastroMaquina.setIdEmpresa(idEmpresa);
-//                return maquinaExiste;
-//            }
-//            else{
-//                System.out.println("#####EXISTE#####");
-//                System.out.println("IdEmpresa: " + rs.getString("idEmpresa") + "\n SingleId: " + rs.getString("singleId") + "\n IDMaquina: " +
-//                        rs.getString("IdMaquina"));
-//                maquinaExiste = true;
-//                selectMaquina1(idEmpresa, System.getProperty("user.name"));
-//                return maquinaExiste;
-//            }
-//
-//        }
-//        // Handle any errors that may have occurred.
-//        catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return maquinaExiste;
-//    }
-//    public void insertMaquina(String idEmpresa, String singleId) {
-//        String insertSql = "INSERT INTO maquina(sistemaOperacional, nomeMaquina, setor, idEmpresa, alertaCPU, alertaRAM, alertaDisco, singleId) VALUES "
-//                + "('" + getSistemaOperacional() +"' , '" + getNomeMaquina() +"', '" + getSetor() + "', '" + idEmpresa +
-//                "', '" + getAlertaCpu() + "', '" + getAlertaRam() + "', '" + getAlertaDisco() + "', '" + crypto.singleID(singleId) + "');";
-//
-//        ResultSet resultSet = null;
-//
-//        try (Connection connection = DriverManager.getConnection(getConnectionUrl());
-//             PreparedStatement prepsInsertProduct = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);) {
-//
-//            prepsInsertProduct.execute();
-//            // Retrieve the generated key from the insert.
-//            resultSet = prepsInsertProduct.getGeneratedKeys();
-//
-//            // Print the ID of the inserted row.
-//            while (resultSet.next()) {
-//                System.out.println("Generated: " + resultSet.getString(1));
-//            }
-//            System.out.println("Insert Realizado com sucesso!");
-//        }
-//        // Handle any errors that may have occurred.
-//        catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void insertMachine(int companyId,String machineName, String location, int alertCPU,
+                              int alertRAM, int alertDisk, String singleId){
+        String insertSql = "INSERT INTO maquina(sistemaOperacional, nomeMaquina, setor, idEmpresa, alertaCPU, alertaRAM, alertaDisco, singleId) VALUES "
+                + "('" + Init.os +"' , '" + machineName +"', '" + location + "', '" + companyId +
+                "', '" + alertCPU + "', '" + alertRAM + "', '" + alertDisk + "', '" + crypto.singleID(singleId) + "');";
+
+        ResultSet resultSet = null;
+
+        try (Connection connection = DriverManager.getConnection(getConnectionUrl());
+             PreparedStatement prepsInsertProduct = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);) {
+
+            prepsInsertProduct.execute();
+            // Retrieve the generated key from the insert.
+            resultSet = prepsInsertProduct.getGeneratedKeys();
+
+            // Print the ID of the inserted row.
+            while (resultSet.next()) {
+                System.out.println("Generated: " + resultSet.getString(1));
+            }
+            System.out.println("Insert Realizado com sucesso!");
+        }
+        // Handle any errors that may have occurred.
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 
