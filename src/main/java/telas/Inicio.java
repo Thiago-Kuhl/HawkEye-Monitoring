@@ -28,9 +28,11 @@ public class Inicio {
                     break;
                 case 2:
                     java.awt.Desktop.getDesktop().browse(new java.net.URI("http://hawkeyetechnology.azurewebsites.net/signup"));
+                    login.validateLogin();
                     run = false;
                     break;
                 default:
+                    break;
             }
         }
 

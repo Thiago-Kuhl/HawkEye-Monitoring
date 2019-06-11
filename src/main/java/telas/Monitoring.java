@@ -16,23 +16,16 @@ public class Monitoring {
     Cpu cpu = new Cpu();
     Ram ram = new Ram();
     Disk disk = new Disk();
-    Processes processes = new Processes();
-
 
     public void update() {
-
+        System.out.println("==============================================================================================================================");
         System.out.println("A aplicação foi iniciada! Para visualizar os dados, acesse: https://hawkeye-technology.outsystemscloud.com/HAWKEYETECHNOLOGY");
-
+        System.out.println("==============================================================================================================================");
         while (true) {
-            System.out.println("||===============================||");
-            System.out.println("||CPU:"+cpu.usedCpuPercent(Init.hal.getProcessor())+"%|RAM: "+ram.freeRamPercent(Init.hal.getMemory())+"%|DISK: "+disk.freeDiskPercent(0)+"%||");
-            System.out.println("||===============================||");
 
             db.insertComponent(disk.totalDisco(0), disk.freeDiskPercent(0), disk.disponivelDisco(0), cpu.modeloCpu(Init.hal.getProcessor()) ,
                     cpu.usedCpuPercent(Init.hal.getProcessor()), Init.os.getProcessCount(), ram.totalRam(Init.hal.getMemory()), ram.freeRamPercent(Init.hal.getMemory()),
                     ram.avaibleRam(Init.hal.getMemory()), getMachineId());
-
-
 
             try {Thread.sleep(5000);
             }

@@ -56,6 +56,8 @@ public class Database {
             }
             else{
                 System.out.println("Não existe");
+                Register register = new Register();
+                register.registerMachine();
             }
         }
         catch (SQLException e){
@@ -107,9 +109,7 @@ public class Database {
             resultSet = prepsInsertProduct.getGeneratedKeys();
 
             // Print the ID of the inserted row.
-            while (resultSet.next()) {
-                System.out.println("Generated: " + resultSet.getString(1));
-            }
+            while (resultSet.next()) {}
         }
         // Handle any errors that may have occurred.
         catch (Exception e) {
@@ -117,6 +117,9 @@ public class Database {
         }
     }
 
+//    public void insertMachine(int companyId, singleId){
+//
+//    }
 //    public boolean selectMaquina(String idEmpresa, String singleId){
 //        boolean maquinaExiste = false;
 //        try (Connection con = DriverManager.getConnection(getConnectionUrl()); Statement stmt = con.createStatement();) {

@@ -34,8 +34,7 @@ public class Login {
             System.out.print("Senha: ");
             //password = reader.next();
             //SERÁ USADO NO FINAL PARA REALIZAR O MASCARA DE SENHA NO TERMINAL, ELE QUEBRA O CÓDIGO SE TENTAR UTILIZAR DIRETO NA IDE.
-            secretPassword = reader.nextLine();
-            password = String.valueOf(secretPassword);
+            password = reader.next();
 
             String url = "http://hawkeyetechnology.azurewebsites.net/loginjava";
             String jsonInputString = "{\"usuario\": \"" + user +"\", \"senha\": \"" +
@@ -45,10 +44,7 @@ public class Login {
             int respondeCode = new PostHttpRequest().postHttpRequest(jsonInputString, url);
 
             if(respondeCode == 200){
-                System.out.println("Loguei");
                 db.selectCompanyId(user);
-                System.out.println("dadasdadaaasd");
-
             }
         }catch (Exception e){
             System.out.println(e);

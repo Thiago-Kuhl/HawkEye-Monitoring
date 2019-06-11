@@ -19,22 +19,6 @@ public class Disk {
         return Double.valueOf(df.format(totalDisco).replaceAll(",",".").replaceAll("[a-zA-Z]", ""));
     }
 
-    //Retorna o uso atual do Disk
-    public double usoDisco(double usoDisco) {
-        DecimalFormat df = new DecimalFormat("#.#");
-        File[] roots = File.listRoots();
-        for (File root : roots) {
-
-            double totalDisco = Double.valueOf(FormatUtil.formatBytes(root.getUsableSpace()).replaceAll("[a-zA-Z]", "").replaceAll(",","."));
-            double disponivelDisco = Double.valueOf(FormatUtil.formatBytes(root.getUsableSpace()).replaceAll("[a-zA-Z]", "").replaceAll(",","."));
-
-            usoDisco = totalDisco(totalDisco) - disponivelDisco(disponivelDisco);
-
-        }
-
-        return Double.valueOf(df.format(usoDisco).replaceAll(",",".").replaceAll("[a-zA-Z]", ""));
-    }
-
     //Retorna o valor disponive do Disk
     public double disponivelDisco(double disponivelDisco) {
         DecimalFormat df = new DecimalFormat("#.#");

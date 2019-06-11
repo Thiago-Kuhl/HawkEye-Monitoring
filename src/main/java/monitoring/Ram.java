@@ -14,16 +14,6 @@ public class Ram {
         return Double.valueOf(df.format(totalRam).replaceAll(",",".").replaceAll("[a-zA-Z]", ""));
     }
 
-    //Retorna o uso atual da RAM
-    public double usoRam(GlobalMemory memory){
-        DecimalFormat df = new DecimalFormat("#.#");
-        double freeRam = Double.valueOf(FormatUtil.formatBytes(memory.getAvailable()).replaceAll(",",".").replaceAll("[a-zA-Z]", ""));
-        double totalRam = Double.parseDouble(FormatUtil.formatBytes(memory.getTotal()).replaceAll(",",".").replaceAll("[a-zA-Z]", ""));
-        double usingRam = totalRam - freeRam;
-
-        return Double.valueOf(df.format(usingRam).replaceAll(",",".").replaceAll("[a-zA-Z]", ""));
-    }
-
     //Retorna o tamanho restante de RAM
     public double avaibleRam(GlobalMemory memory){
 
