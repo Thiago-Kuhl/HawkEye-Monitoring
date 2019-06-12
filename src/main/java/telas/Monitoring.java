@@ -23,6 +23,29 @@ public class Monitoring {
         System.out.println("==============================================================================================================================");
         while (true) {
 
+            //CPU
+            if(cpu.usedCpuPercent(Init.hal.getProcessor()) >= getAlertCPU() * 75 / 100){
+                slack.sendMessageWarning("cpu", Init.os.toString(), "");
+            }
+            else if(cpu.usedCpuPercent(Init.hal.getProcessor()) > getAlertCPU()){
+                slack.sendMessageAlert("cpu", Init.os.toString(), "");
+            }
+
+            //RAM
+            if(ram.freeRamPercent(Init.hal.getMemory()) >= getAlertCPU() * 75 / 100){
+                slack.sendMessageWarning("cpu", Init.os.toString(), "");
+            }
+            else if(ram.freeRamPercent(Init.hal.getMemory()) > getAlertCPU()){
+                slack.sendMessageAlert("cpu", Init.os.toString(), "");
+            }
+
+            //DISK
+            if(cpu.usedCpuPercent(Init.hal.getProcessor()) >= getAlertCPU() * 75 / 100){
+                slack.sendMessageWarning("cpu", Init.os.toString(), "");
+            }
+            else if(cpu.usedCpuPercent(Init.hal.getProcessor()) > getAlertCPU()){
+                slack.sendMessageAlert("cpu", Init.os.toString(), "");
+            }
             db.insertComponent(disk.totalDisco(0), disk.freeDiskPercent(0), disk.disponivelDisco(0), cpu.modeloCpu(Init.hal.getProcessor()) ,
                     cpu.usedCpuPercent(Init.hal.getProcessor()), Init.os.getProcessCount(), ram.totalRam(Init.hal.getMemory()), ram.freeRamPercent(Init.hal.getMemory()),
                     ram.avaibleRam(Init.hal.getMemory()), getMachineId());

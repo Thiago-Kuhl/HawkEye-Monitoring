@@ -14,7 +14,7 @@ public class Slack {
 
     public String user = System.getProperty("user.name");
 
-    public void sendMessage(String componente, String os, String path) {
+    public void sendMessageAlert(String componente, String os, String path) {
 
 
         if (os.substring(0, 9).equals("Microsoft"))
@@ -34,5 +34,27 @@ public class Slack {
         .icon_emoji(":twice:")
         .build();
       SlackUtils.sendMessage(slackMessage);
+    }
+
+    public void sendMessageWarning(String componente, String os, String path) {
+
+
+        if (os.substring(0, 9).equals("Microsoft"))
+        {
+            path = "C:\\Users\\"+user+"\\HawkEye-Monitoring\\"+componente.toLowerCase() +"\\";
+        }
+        else if(os.substring(0 , 3).equals("GNU")){
+            path = "/home/" + user + "/HawkEye-Monitoring/" + componente.toLowerCase() + "/";
+        }
+        else if(os.substring(0 , 5).equals("Apple")){
+            path = "/Users/" + user + "/HawkEye-Monitoring/" + componente.toLowerCase() + "/";
+        }
+        SlackMessage slackMessage = SlackMessage.builder()
+                .channel("outros-assuntos")
+                .username("")
+                .text("AVISO NIVEL DE USO DE  "  + componente.toUpperCase() + " ATINGIU 75% DO MÁXIMO. VERIFIQUE O LOG EM: " + path)
+                .icon_emoji(":twice:")
+                .build();
+        SlackUtils.sendMessage(slackMessage);
     }
 }
